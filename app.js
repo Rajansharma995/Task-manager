@@ -1,8 +1,10 @@
 const express = require('express');
 const app = express();
-const PORT= 3000;
 const tasks = require('./routes/routes.task.js');
+const connectDB = require('./config/config.db.js')
+require('dotenv').config()
 
+connectDB();
 //middleware
 app.use(express.json() )
 
@@ -12,11 +14,11 @@ app.get('/hello',(req,res)=>{
 })
 app.use("/api/v1/tasks",tasks)
 
-app.listen(PORT,(err)=>{
+app.listen(process.env.PORT,(err)=>{
     if(err){
         console.log('Error',err.message);
     }else{
-        console.log(`server is listening on the :${PORT}`);
+        console.log(`server is listening on the :${process.env.PORT}`);
     }
     
 })
