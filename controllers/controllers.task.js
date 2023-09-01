@@ -1,6 +1,11 @@
 const Items = require('../models/models.task');
-const getAllItems= (req,res) =>{
-    res.json('all items');
+const getAllItems= async (req,res) =>{
+    try{
+        const items = await Items.find();
+        res.status(200).json(items);
+        }catch(error){
+            next(error);
+            }
 }
 
 const createItems= async(req,res,next) =>{
@@ -8,13 +13,22 @@ const createItems= async(req,res,next) =>{
          await Items.create(req.body)
         res.status(201).json({message:`created `});
         }catch(error){
-            next(err);
+            next(error);
             }
 }
 
 
-const getItems= (req,res) =>{
-    res.json({id: req.params.id});
+const getItems= async (req,res,next) =>{
+    try {
+        const {id:itemsID} = req.params;
+        const items = await Items.findOne({_id:itemsID});
+        if(!items){
+          return res.status(404).json({message:`No such id : ${itemsID}`})
+             };
+            res.status(200).json({items})
+            } catch (err) {
+                next(err);
+                };
 }
 
 
