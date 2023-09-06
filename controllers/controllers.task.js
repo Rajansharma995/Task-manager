@@ -1,5 +1,5 @@
 const Items = require('../models/models.task');
-const getAllItems= async (req,res) =>{
+const getAllItems= async (req,res,next) =>{
     try{
         const items = await Items.find();
         res.status(200).json(items);
@@ -52,7 +52,8 @@ const updateItems= async (req,res,next) => {
     try  {
         const {id: itemsID} =req.params;
         const items = await Items.findOneAndUpdate({_id: itemsID},req.body,{
-            new:true , runValidators: true 
+            new:true , 
+            runValidators: true 
         });
         if (!items )return res.status(404).send(`Items with the given ID not found`);
         res.status(200).json({items});
