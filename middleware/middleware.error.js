@@ -1,2 +1,4 @@
-const notFound = (req,res) => res.status(404).send('Routes not found');
-module.exports= notFound;
+const errorHandler = (err,req,res,next)=>{
+    return res.status(500).json({msg:`something went wrong`});
+}
+module.exports = errorHandler;

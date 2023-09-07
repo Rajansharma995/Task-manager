@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const tasks = require('./routes/routes.task.js');
 const connectDB = require('./config/config.db.js');
-const notFound = require('./middleware/middleware.error.js');
+const errorHandler = require('./middleware/middleware.error.js');
+const notFound = require('./middleware/middleware.notFound.js');
+
 require('dotenv').config()
 
 connectDB();
@@ -14,6 +16,7 @@ app.use(express.json())
 app.use("/api/v1/tasks",tasks)
 
 app.use(notFound);
+app.use(errorHandler);
 
 app.listen(process.env.PORT,(err)=>{
     if(err){
